@@ -1,0 +1,28 @@
+name: Revisar canales
+on:
+  schedule:
+    - cron: "0 15 * * *"   # 12:00 en Argentina
+  workflow_dispatch:
+permissions:
+  contents: write
+  issues: write
+jobs:
+  revisar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: revisar
+        run: echo "caidos=$(python3 tools/revisar_canales.py canales.json)" >> "$GITHUB_OUTPUT"
+      - name: Guardar cambios
+        run: |
+          if ! git diff --quiet canales.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Canales: revisión diaria" -- canales.json
+            git push
+          fi
+      - name: Avisar caídos
+        if: steps.revisar.outputs.caidos != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh issue create --title "Canales sin señal: ${{ steps.revisar.outputs.caidos }}" --body "La revisión diaria no encontró el directo 3 veces seguidas. Revisar la fuente oficial y corregir canales.json."
