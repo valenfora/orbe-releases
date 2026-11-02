@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Descargar Orbe</title>
+<meta name="description" content="Orbe: navegador simple para Google TV y Android TV.">
+<style>
+  :root { --bg:#f6f4ef; --card:#fff; --text:#1d1b18; --muted:#6b665d; --accent:#2f6fed; --on-accent:#fff; --line:#e3ded4; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#141412; --card:#1e1d1a; --text:#f1eee8; --muted:#a8a296; --accent:#6c9bff; --on-accent:#0d1220; --line:#2e2c28; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:18px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  main { max-width:640px; margin:0 auto; padding:40px 16px 56px; }
+  h1 { font-size:2.4rem; margin:0 0 4px; letter-spacing:-.02em; }
+  .lead { color:var(--muted); margin:0 0 28px; }
+  .dl { display:block; text-align:center; background:var(--accent); color:var(--on-accent); text-decoration:none; font-weight:700; font-size:1.3rem; padding:20px; border-radius:14px; }
+  .dl:focus-visible { outline:4px solid var(--text); outline-offset:3px; }
+  .ver { text-align:center; color:var(--muted); font-size:.95rem; margin:10px 0 32px; min-height:1.5em; }
+  section { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 22px; margin-bottom:16px; }
+  h2 { font-size:1.15rem; margin:0 0 8px; }
+  ol { margin:0; padding-left:1.3em; }
+  li + li { margin-top:6px; }
+  code { font-size:1.05em; font-weight:700; word-break:break-all; }
+  footer { color:var(--muted); font-size:.85rem; margin-top:28px; text-align:center; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Orbe</h1>
+  <p class="lead">Navegador simple para Google TV y Android TV, pensado para usar con el control remoto.</p>
+  <a class="dl" id="dl" href="https://github.com/valenfora/orbe-releases/releases/latest/download/Orbe.apk">Descargar Orbe</a>
+  <p class="ver" id="ver"></p>
+
+  <section>
+    <h2>En la TV, con Downloader</h2>
+    <ol>
+      <li>En la tienda de la TV, instalá la app <b>Downloader</b>.</li>
+      <li>Abrila y escribí: <code>valenfora.github.io/orbe-releases</code></li>
+      <li>Elegí <b>Descargar Orbe</b> y después <b>Instalar</b>. Si la TV pregunta, permití que Downloader instale apps.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Desde el celular</h2>
+    <ol>
+      <li>Tocá <b>Descargar Orbe</b> en esta página.</li>
+      <li>Pasale el archivo a la TV con la app <b>Send Files to TV</b>, o mandáselo a quien lo necesite por WhatsApp.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Requisitos</h2>
+    <p style="margin:0">Google TV o Android TV con Android 12 o más nuevo. Una vez instalada, Orbe avisa sola cuando hay una versión nueva.</p>
+  </section>
+
+  <footer>Orbe no está en Google Play: Android puede advertir que es una app desconocida. Es normal; elegí "Instalar de todas formas".</footer>
+</main>
+<script>
+  fetch("latest.json", { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(j => {
+    const ver = document.getElementById("ver");
+    if (!j || !j.versionName) { ver.textContent = ""; return; }
+    ver.textContent = "Versión " + j.versionName + (j.size ? " · " + (j.size / 1048576).toFixed(1) + " MB" : "");
+    if (typeof j.url === "string" && j.url.startsWith("https://github.com/valenfora/orbe-releases/")) document.getElementById("dl").href = j.url;
+  }).catch(() => {});
+</script>
+</body>
+</html>
