@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Orbe TV</title>
+<style>
+  html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:sans-serif}
+  iframe{border:0;width:100%;height:100%;display:block}
+  #msg{position:fixed;inset:0;display:none;align-items:center;justify-content:center;color:#ccc;font-size:28px;text-align:center;padding:40px}
+</style>
+</head>
+<body>
+<iframe id="p" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
+<div id="msg">Este canal no está transmitiendo ahora.</div>
+<script>
+// Reproductor oficial de YouTube para Orbe. El canal va en el hash (#UC…): cambiar de canal no recarga la página.
+const p = document.getElementById('p'), msg = document.getElementById('msg');
+let playing = false;
+function load() {
+  const id = location.hash.slice(1);
+  msg.style.display = 'none';
+  if (!/^UC[A-Za-z0-9_-]{22}$/.test(id)) { p.removeAttribute('src'); return; }
+  p.src = 'https://www.youtube.com/embed/live_stream?channel=' + id +
+    '&autoplay=1&playsinline=1&rel=0&enablejsapi=1&origin=' + encodeURIComponent(location.origin);
+}
+function send(func) { p.contentWindow && p.contentWindow.postMessage(JSON.stringify({event: 'command', func: func, args: []}), '*'); }
+p.addEventListener('load', () => p.contentWindow.postMessage(JSON.stringify({event: 'listening'}), '*'));
+window.addEventListener('message', e => {
+  if (e.origin !== 'https://www.youtube.com') return;
+  let d; try { d = JSON.parse(e.data); } catch (_) { return; }
+  if (d.event === 'infoDelivery' && d.info && typeof d.info.playerState === 'number') playing = d.info.playerState === 1;
+  if (d.event === 'onError') { msg.style.display = 'flex'; }
+});
+// Orbe llama esto con OK.
+window.orbeToggle = () => send(playing ? 'pauseVideo' : 'playVideo');
+window.addEventListener('hashchange', load);
+load();
+</script>
+</body>
+</html>
