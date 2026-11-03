@@ -25,4 +25,5 @@ jobs:
         if: steps.revisar.outputs.caidos != ''
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh issue create --title "Canales sin señal: ${{ steps.revisar.outputs.caidos }}" --body "La revisión diaria no encontró el directo 3 veces seguidas. Revisar la fuente oficial y corregir canales.json."
+        run: |
+          gh issue create --title "Canales sin señal: ${{ steps.revisar.outputs.caidos }}" --body "La revisión diaria no encontró el directo 3 veces seguidas. Revisar la fuente oficial y corregir canales.json."
