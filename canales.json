@@ -3,7 +3,7 @@
 {"id":"telefe","nombre":"Telefe","grupo":"abierta","emision":"24h","web":"https://www.mitelefe.com/telefe-en-vivo"},
 {"id":"el-trece","nombre":"El Trece","grupo":"abierta","emision":"24h","web":"https://www.eltrecetv.com.ar/vivo/"},
 {"id":"america","nombre":"América TV","grupo":"abierta","emision":"24h","yt":"UC6NVDkuzY2exMOVFw4i9oHw"},
-{"id":"el-nueve","nombre":"El Nueve","grupo":"abierta","emision":"24h","yt":"UCUT4NmGqjrVpKf2JyiS_bbA"},
+{"id":"el-nueve","nombre":"El Nueve","grupo":"abierta","emision":"24h","yt":"UCUT4NmGqjrVpKf2JyiS_bbA","fallas":1},
 {"id":"net-tv","nombre":"Net TV","grupo":"abierta","emision":"24h","web":"https://www.canalnet.tv/page/senal-en-vivo"},
 {"id":"c5n","nombre":"C5N","grupo":"noticias","emision":"24h","yt":"UCFgk2Q2mVO1BklRQhSv6p0w"},
 {"id":"tn","nombre":"TN","grupo":"noticias","emision":"24h","yt":"UCj6PcyLvpnIRT_2W_mwa9Aw"},
